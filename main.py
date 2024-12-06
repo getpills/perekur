@@ -1,18 +1,19 @@
 from PIL import Image
 
 # Открываем изображение
-image = Image.open('image.jpg')
-
+image = Image.open('img.jpg')
+xsize =40
+ysize =30
 # Преобразуем изображение в градации серого
 gray_image = image.convert('L')
-threshold = 150
+threshold = 120
 bw_image = gray_image.point(lambda x: 255 if x > threshold else 0, '1')
 
-bw_image = bw_image.resize((80, 88), Image.Resampling.LANCZOS)
+bw_image = bw_image.resize((xsize*3-1, ysize*6-2), Image.Resampling.LANCZOS)
 bw_image
 pixels = bw_image.load()
 width, height = bw_image.size
-far = [[0 for _ in range(15)] for _ in range(27)]
+far = [[0 for _ in range(ysize)] for _ in range(xsize)]
 
 for y in range(height):
   for x in range(width):
@@ -36,9 +37,9 @@ for y in range(height):
     
 
 
-for y in range(15):
+for y in range(ysize):
   line = ""
-  for x in range(27):
+  for x in range(xsize):
     # Здесь вы можете выполнять действия с каждым элементом far
     line+=chr(10240+int(far[x][y]))
   print(line)
